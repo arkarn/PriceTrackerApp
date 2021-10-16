@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  webui:
+    build:
+      context: ./webUI
+    ports:
+      - '5000:5000'
+    depends_on: 
+      - mysqldb
+    links:
+      - mysqldb
+    restart: always
+
+  webscrapper:
+    build:
+      context: ./webscrapper_telegram
+    depends_on: 
+      - mysqldb
+    links:
+      - mysqldb
+    restart: always
+
+  mysqldb:
+    image: mysql
+    ports:
+      - '3306:3306'
+    environment:   # Set up mysql database name and password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: proddb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - 'mysql:/var/lib/mysql'
+volumes:
+  mysql:
