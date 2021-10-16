@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block formload %}
+<form method="POST" action="{{ url_for('addproduct') }}" class="form-horizontal" >
+  <div class="form-group">
+      <input type="text" class="form-control" name="prod_name" placeholder="Give any custom product name">
+  </div>
+  &nbsp;
+  <div class="form-group">
+      <input type="url" class="form-control" name="prod_url" placeholder="Link to product on amazon site">
+  </div>
+  &nbsp;
+  <div class="form-group">
+    <input type="number" class="form-control" name="price_thresh" placeholder="Threshold of price to trigger notification" width="12">
+  </div>
+  &nbsp;
+  <input type="submit" class="btn btn-primary" value="Save"/>
+  &nbsp;
+</form>
+{% endblock %}
+
+{% block content %}
+  <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>URL</th>
+        <th>Price Threshold</th>
+        <th>Delete item</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for prod in prods %}
+        <tr>
+          <td>{{ prod.prod_name }}</td>
+          <td>{{ prod.prod_url }}</td>
+          <td>{{ prod.price_thresh }}</td>
+          <td> 
+            <form method="GET" action="{{ url_for('deleteproduct', prodname=prod.prod_name) }}">
+              <input type="submit" value="Delete" class="btn btn-primary" /> 
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    $(document).ready(function () {
+      $('#data').DataTable({
+        columns: [
+          {orderable: true, searchable: true},
+          {searchable: false},
+          {orderable: false, searchable: false},
+          null
+          ],
+      });
+    });
+  </script>
+{% endblock %}
