@@ -5,7 +5,7 @@ import telegram_send
 import os
 import pymysql
 
-os.system('printf "1782618485:AAGk6TxOkq0FyW7YWlpDu5lo3aAnszd_uDM\npub\nt.me/amazPT" | telegram-send --configure-channel')
+os.system('printf "<token_key>\npub\nt.me/amazPT" | telegram-send --configure-channel')
 
 def get_driver():
     """Start web driver"""
